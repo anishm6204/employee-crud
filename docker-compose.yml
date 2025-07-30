@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    container_name: employee-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Seaqueen@1901
+      POSTGRES_DB: employee
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: employee
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      JWT_SECRET: secret_key_abc
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: Seaqueen@1901
+      DB_NAME: employee
+
+volumes:
+  pgdata:
